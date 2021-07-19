@@ -12,8 +12,9 @@ $(NAME):
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC)
 
 clean:
+	rm -f $(NAME)_kid.c
 
-fclean:
+fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
