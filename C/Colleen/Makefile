@@ -12,10 +12,15 @@ $(NAME):
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC)
 
 clean:
+	rm -f $(NAME).out
 
-fclean:
+fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: clean fclean re
+test: re
+	./$(NAME) > $(NAME).out
+	diff $(SRC) $(NAME).out
+
+.PHONY: clean fclean re test
