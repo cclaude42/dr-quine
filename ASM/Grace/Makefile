@@ -1,12 +1,12 @@
-NAME = Colleen
+NAME = Grace
 
 CC = clang
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC = Colleen.s
+SRC = Grace.s
 
-OUT = Colleen.out
+KID = Grace_kid.s
 
 all: $(NAME)
 
@@ -14,7 +14,7 @@ $(NAME):
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC)
 
 clean:
-	rm -f $(OUT)
+	rm -f $(KID)
 
 fclean: clean
 	rm -f $(NAME)
@@ -22,7 +22,7 @@ fclean: clean
 re: fclean all
 
 test: re
-	./$(NAME) > $(OUT)
-	diff $(SRC) $(OUT)
+	./$(NAME)
+	diff $(SRC) $(KID)
 
 .PHONY: clean fclean re test

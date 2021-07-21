@@ -6,7 +6,8 @@ int main (void)
 {
 	char *s[] = {
 		"Sully_X.c",
-		"clang -Wall -Wextra -Werror Sully_X.c -o Sully_X ; ./Sully_X",
+		"clang -Wall -Wextra -Werror Sully_X.c -o Sully_X",
+		"./Sully_X",
 		"w+",
 		"%s%c",
 		"		%c%s%c,%c",
@@ -20,72 +21,80 @@ int main (void)
 		"	};",
 		"",
 		"	int i = %c;%c",
-		"	char c = (char)(i + '0');",
+		"	char c = (char)(i - 1 + '0');",
 		"	char	*name = strdup(s[0]);",
 		"	name[6] = c;",
 		"",
-		"	FILE * fp = fopen(name, s[2]);",
-		"	for (int i = 5 ; i < 48 ; i++)",
+		"	FILE * fp = fopen(name, s[3]);",
+		"	for (int i = 6 ; i < 53 ; i++)",
 		"	{",
-		"		if (i == 12)",
+		"		if (i == 13)",
 		"		{",
-		"			for (int i = 0 ; i < 48 ; i++)",
-		"				fprintf(fp, s[4], 34, s[i], 34, 10);",
-		"			fprintf(fp, s[3], s[i], 10);",
+		"			for (int i = 0 ; i < 53 ; i++)",
+		"				fprintf(fp, s[5], 34, s[i], 34, 10);",
+		"			fprintf(fp, s[4], s[i], 10);",
 		"		}",
-		"		else if (i == 14)",
-		"			fprintf(fp, s[i], c - 1, 10);",
+		"		else if (i == 15)",
+		"			fprintf(fp, s[i], c, 10);",
 		"		else",
-		"			fprintf(fp, s[3], s[i], 10);",
+		"			fprintf(fp, s[4], s[i], 10);",
 		"	}",
 		"	fclose(fp);",
 		"	free(name);",
 		"",
-		"	if (i > 0)",
-		"	{",
-		"		char	*cmd = strdup(s[1]);",
-		"		cmd[34] = c;",
-		"		cmd[47] = c;",
-		"		cmd[59] = c;",
+		"	char	*cmd = strdup(s[1]);",
+		"	cmd[34] = c;",
+		"	cmd[47] = c;",
 		"",
+		"	system(cmd);",
+		"	free(cmd);",
+		"",
+		"	cmd = strdup(s[2]);",
+		"	cmd[8] = c;",
+		"",
+		"	if (i > 1)",
 		"		system(cmd);",
-		"		free(cmd);",
-		"	}",
+		"	free(cmd);",
+		"",
 		"	return (0);",
 		"}",
 	};
 
 	int i = 5;
-	char c = (char)(i + '0');
+	char c = (char)(i - 1 + '0');
 	char	*name = strdup(s[0]);
 	name[6] = c;
 
-	FILE * fp = fopen(name, s[2]);
-	for (int i = 5 ; i < 48 ; i++)
+	FILE * fp = fopen(name, s[3]);
+	for (int i = 6 ; i < 53 ; i++)
 	{
-		if (i == 12)
+		if (i == 13)
 		{
-			for (int i = 0 ; i < 48 ; i++)
-				fprintf(fp, s[4], 34, s[i], 34, 10);
-			fprintf(fp, s[3], s[i], 10);
+			for (int i = 0 ; i < 53 ; i++)
+				fprintf(fp, s[5], 34, s[i], 34, 10);
+			fprintf(fp, s[4], s[i], 10);
 		}
-		else if (i == 14)
-			fprintf(fp, s[i], c - 1, 10);
+		else if (i == 15)
+			fprintf(fp, s[i], c, 10);
 		else
-			fprintf(fp, s[3], s[i], 10);
+			fprintf(fp, s[4], s[i], 10);
 	}
 	fclose(fp);
 	free(name);
 
-	if (i > 0)
-	{
-		char	*cmd = strdup(s[1]);
-		cmd[34] = c;
-		cmd[47] = c;
-		cmd[59] = c;
+	char	*cmd = strdup(s[1]);
+	cmd[34] = c;
+	cmd[47] = c;
 
+	system(cmd);
+	free(cmd);
+
+	cmd = strdup(s[2]);
+	cmd[8] = c;
+
+	if (i > 1)
 		system(cmd);
-		free(cmd);
-	}
+	free(cmd);
+
 	return (0);
 }

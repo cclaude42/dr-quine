@@ -19,4 +19,9 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: clean fclean re
+test: re
+	./$(NAME)
+	-diff $(SRC) $(NAME)_0.c
+	-diff $(NAME)_3.c $(NAME)_2.c
+
+.PHONY: clean fclean re test

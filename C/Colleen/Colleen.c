@@ -28,35 +28,33 @@ void replicator (void)
 		"",
 		"	for (int i = 2 ; i < 14 ; i++)",
 		"		printf(s[0], s[i], NL);",
-		"	for (int i = 0 ; i < 32 ; i++)",
+		"	for (int i = 0 ; i < 31 ; i++)",
 		"		printf(s[1], QT, s[i], QT, NL);",
-		"	for (int i = 14 ; i < 32 ; i++)",
+		"	for (int i = 14 ; i < 31 ; i++)",
 		"		printf(s[0], s[i], NL);",
 		"}",
 		"",
-		"/*",
-		"	And this is the main calling it...",
-		"*/",
-		"",
 		"int main (void)",
 		"{",
+		"	/*",
+		"		And this is the main calling it !",
+		"	*/",
 		"	replicator();",
 		"}",
 	};
 
 	for (int i = 2 ; i < 14 ; i++)
 		printf(s[0], s[i], NL);
-	for (int i = 0 ; i < 32 ; i++)
+	for (int i = 0 ; i < 31 ; i++)
 		printf(s[1], QT, s[i], QT, NL);
-	for (int i = 14 ; i < 32 ; i++)
+	for (int i = 14 ; i < 31 ; i++)
 		printf(s[0], s[i], NL);
 }
 
-/*
-	And this is the main calling it...
-*/
-
 int main (void)
 {
+	/*
+		And this is the main calling it !
+	*/
 	replicator();
 }

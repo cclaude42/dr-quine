@@ -6,13 +6,15 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRC = Colleen.c
 
+OUT = Colleen.out
+
 all: $(NAME)
 
 $(NAME):
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC)
 
 clean:
-	rm -f $(NAME).out
+	rm -f $(OUT)
 
 fclean: clean
 	rm -f $(NAME)
@@ -20,7 +22,7 @@ fclean: clean
 re: fclean all
 
 test: re
-	./$(NAME) > $(NAME).out
-	diff $(SRC) $(NAME).out
+	./$(NAME) > $(OUT)
+	diff $(SRC) $(OUT)
 
 .PHONY: clean fclean re test

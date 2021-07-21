@@ -6,17 +6,23 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRC = Grace.c
 
+KID = Grace_kid.c
+
 all: $(NAME)
 
 $(NAME):
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC)
 
 clean:
-	rm -f $(NAME)_kid.c
+	rm -f $(KID)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: clean fclean re
+test: re
+	./$(NAME)
+	diff $(SRC) $(KID)
+
+.PHONY: clean fclean re test
