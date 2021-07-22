@@ -21,7 +21,7 @@ re: fclean all
 
 test: re
 	./$(NAME)
-	-diff $(SRC) $(NAME)_0.c
-	-diff $(NAME)_3.c $(NAME)_2.c
+	-diff $(SRC) $(NAME)_0.s
+	-diff $(NAME)_3.s $(NAME)_2.s
 
 .PHONY: clean fclean re test

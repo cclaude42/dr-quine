@@ -1,10 +1,10 @@
 .data
 
 i: .long 5
-prog: .asciz ".data%6$c%6$ci: .long %9$d%6$cprog: .asciz %7$c%1$s%7$c%6$cname: .asciz %7$c%2$s%7$c%6$cmode: .asciz %7$cw+%7$c%6$ccomp: .asciz %7$c%3$s%7$c%6$cexec: .asciz %7$c%4$s%7$c%6$caddr: .space 60%6$c%6$c.text%6$c.global main%6$c%6$c# Fill %rdi with sprintf string%6$c.macro RDI_STR str%6$c%5$clea addr(%rip), %rdi%6$c%5$clea %8$cstr(%rip), %rsi%6$c%5$cmov i, %rdx%6$c%5$cxor %rax, %rax%6$c%5$ccall sprintf%6$c%5$clea addr(%rip), %rdi%6$c.endm%6$c%6$cmain:%6$c# Create file%6$c%5$cRDI_STR name%6$c%5$clea mode(%rip), %rsi%6$c%5$ccall fopen%6$c%5$cpush %rax%6$c# Write to file%6$c%5$cmov %rax, %rdi%6$c%5$clea prog(%rip), %rsi%6$c%5$clea prog(%rip), %rdx%6$c%5$clea name(%rip), %rcx%6$c%5$clea comp(%rip), %r8%6$c%5$clea exec(%rip), %r9%6$c%5$cpush i%6$c%5$cpush $92%6$c%5$cpush $34%6$c%5$cpush $10%6$c%5$cpush $9%6$c%5$cxor %rax, %rax%6$c%5$ccall fprintf%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c# Close FILE *%6$c%5$cpop %rdi%6$c%5$ccall fclose%6$c# Compile and execute%6$c%5$cRDI_STR comp%6$c%5$ccall system%6$c%5$cRDI_STR exec%6$c#%5$ccall system%6$cend:%6$c%5$cxor %rax, %rax%6$c%5$cret%6$c"
+prog: .asciz ".data%6$c%6$ci: .long %9$d%6$cprog: .asciz %7$c%1$s%7$c%6$cname: .asciz %7$c%2$s%7$c%6$cmode: .asciz %7$cw+%7$c%6$ccomp: .asciz %7$c%3$s%7$c%6$cexec: .asciz %7$c%4$s%7$c%6$caddr: .space 60%6$c%6$c.text%6$c.global main%6$c%6$c# Fill %rdi with sprintf string%6$c.macro RDI_STR str%6$c%5$clea addr(%rip), %rdi%6$c%5$clea %8$cstr(%rip), %rsi%6$c%5$cmov i, %rdx%6$c%5$cxor %rax, %rax%6$c%5$ccall sprintf%6$c%5$clea addr(%rip), %rdi%6$c.endm%6$c%6$cmain:%6$c%5$cdecw i%6$c# Create file%6$c%5$cRDI_STR name%6$c%5$clea mode(%rip), %rsi%6$c%5$ccall fopen%6$c%5$cpush %rax%6$c# Write to file%6$c%5$cmov %rax, %rdi%6$c%5$clea prog(%rip), %rsi%6$c%5$clea prog(%rip), %rdx%6$c%5$clea name(%rip), %rcx%6$c%5$clea comp(%rip), %r8%6$c%5$clea exec(%rip), %r9%6$c%5$cpush i%6$c%5$cpush $92%6$c%5$cpush $34%6$c%5$cpush $10%6$c%5$cpush $9%6$c%5$cxor %rax, %rax%6$c%5$ccall fprintf%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c%5$cpop %rax%6$c# Close FILE *%6$c%5$cpop %rdi%6$c%5$ccall fclose%6$c# Compile and execute%6$c%5$cpush %rax%6$c%5$cRDI_STR comp%6$c%5$ccall system%6$c%5$ccmpw $0, i%6$c%5$cjz end%6$c%5$cRDI_STR exec%6$c%5$ccall system%6$cend:%6$c%5$cpop %rax%6$c%5$cret%6$c"
 name: .asciz "Sully_%1$d.s"
 mode: .asciz "w+"
-comp: .asciz "echo hello"
+comp: .asciz "clang -Wall -Wextra -Werror -o Sully_%1$d Sully_%1$d.s"
 exec: .asciz "./Sully_%1$d"
 addr: .space 60
 
@@ -22,6 +22,7 @@ addr: .space 60
 .endm
 
 main:
+	decw i
 # Create file
 	RDI_STR name
 	lea mode(%rip), %rsi
@@ -50,10 +51,13 @@ main:
 	pop %rdi
 	call fclose
 # Compile and execute
+	push %rax
 	RDI_STR comp
 	call system
+	cmpw $0, i
+	jz end
 	RDI_STR exec
-#	call system
+	call system
 end:
-	xor %rax, %rax
+	pop %rax
 	ret
